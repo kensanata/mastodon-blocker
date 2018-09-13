@@ -77,10 +77,15 @@ def login(account, scopes = ["read", "write"]):
 def process(mastodon, id, blocked):
     print("Processing %s" % id)
 
-    print("Who favourited this toot...")
     to_block = mastodon.status_favourited_by(id)
     to_block = mastodon.fetch_remaining(to_block)
     print("%d people favourited this toot" % len(to_block))
+
+    boosters = mastodon.status_reblogged_by(id)
+    boosters = mastodon.fetch_remaining(boosters)
+    print("%d people boosted this toot" % len(boosters))
+
+    to_block.extend(boosters)
 
     if len(to_block) == 0:
         print("Nothing to do! That probably wasn't the right URL.")

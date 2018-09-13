@@ -75,8 +75,8 @@ Here's an example:
 ```
 Toot> https://octodon.social/@kensanata/100719476477868576
 Processing 100719476477868576
-Who favourited this toot...
 1 people favourited this toot
+0 people boosted this toot
 Blocking kensanata@dice.camp
 ```
 
@@ -85,8 +85,8 @@ And what happens if you do it again? Nothing!
 ```
 Toot> https://octodon.social/@kensanata/100719476477868576
 Processing 100719476477868576
-Who favourited this toot...
 1 people favourited this toot
+0 people boosted this toot
 kensanata@dice.camp is already blocked
 ```
 
