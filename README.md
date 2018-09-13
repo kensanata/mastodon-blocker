@@ -76,4 +76,6 @@ Who favourited this toot...
 kensanata@dice.camp is already blocked
 ```
 
+Keep repeating this for every toot you see.
+
 That's it! Stay safe. May you never be harassed by the mob.
