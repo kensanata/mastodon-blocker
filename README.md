@@ -7,7 +7,21 @@ And yes, innocent people will get caught up in this. But when you're
 being harassed by a mob, maybe that's the kind of trade-off you're
 willing to make.
 
-Here's how it works.
+Here's how it works. You need Python 3 and you need the `Mastodon.py`
+library installed.
+
+```
+pip3 install mastodon.py
+```
+
+Copy the script and make it executable:
+
+```
+curl https://alexschroeder.ch/cgit/mastodon-blocker/plain/mastodon-blocker > mastodon-blocker
+chmod +x mastodon-blocker
+```
+
+(Please help me improve this process?)
 
 Start the tool with your account:
 
