@@ -1,0 +1,141 @@
+#!/usr/bin/env python3
+# Copyright (C) 2018  Alex Schroeder <alex@gnu.org>
+
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program. If not, see <http://www.gnu.org/licenses/>.
+
+from mastodon import Mastodon
+import html2text
+import requests
+import sys
+import os.path
+import os
+import re
+
+def login(account, scopes = ["read", "write"]):
+    """
+    Login to your Mastodon account
+    """
+
+    (username, domain) = account.split("@")
+
+    url = "https://" + domain
+    client_secret = account + ".client"
+    user_secret = account + ".user"
+    mastodon = None
+
+    if not os.path.isfile(client_secret):
+
+        print("Registering app...")
+        Mastodon.create_app(
+            'mastodon-blocker',
+            api_base_url = url,
+            scopes = scopes,
+            to_file = client_secret)
+
+    if not os.path.isfile(user_secret):
+
+        print("This app needs access to your Mastodon account.")
+
+        mastodon = Mastodon(
+            client_id = client_secret,
+            api_base_url = url)
+
+        url = mastodon.auth_request_url(
+            client_id = client_secret,
+            scopes = scopes)
+
+        print("Visit the following URL and authorize the app:")
+        print(url)
+
+        print("Then paste the access token here:")
+        token = sys.stdin.readline().rstrip()
+
+        print("Verifying the code...")
+        mastodon.log_in(
+            code = token,
+            to_file = user_secret,
+            scopes = scopes)
+
+    print("Logging in...")
+    mastodon = Mastodon(
+        client_id = client_secret,
+        access_token = user_secret,
+        api_base_url = url)
+
+    return mastodon
+
+def process(mastodon, id, blocked):
+    print("Processing %s" % id)
+
+    print("Who favourited this toot...")
+    to_block = mastodon.status_favourited_by(id)
+    to_block = mastodon.fetch_remaining(to_block)
+    print("%d people favourited this toot" % len(to_block))
+
+    if len(to_block) == 0:
+        print("Nothing to do! That probably wasn't the right URL.")
+        return
+
+    for account in to_block:
+
+        if account["id"] in blocked:
+            print("%s is already blocked" % account["acct"])
+            continue
+
+        print("Blocking %s" % account["acct"])
+        mastodon.account_block(account["id"])
+        blocked[account["id"]] = account
+
+def load_blocked(mastodon):
+    '''
+    Return a dictinoary mapping id to account
+    '''
+    print("Load the current blocks...")
+    blocked = mastodon.blocks(limit = 100)
+    blocked = mastodon.fetch_remaining(blocked)
+
+    print("%d people already blocked" % len(blocked))
+    d = { x["id"]: x for x in blocked}
+    return d
+
+def main(account):
+    mastodon = login(account,
+                     scopes = ["read:accounts",
+                               "read:blocks",
+                               "write:blocks"])
+
+    blocked = load_blocked(mastodon) # whole accounts
+
+    (username, domain) = account.split("@")
+
+    while True:
+        sys.stdout.write("Toot> ")
+        sys.stdout.flush()
+        url = sys.stdin.readline().rstrip()
+        if not url:
+            break
+        if not domain in url:
+            print("Sadly, this only works on a status via the %s domain" % domain)
+        else:
+            m = re.search("([0-9]+)$", url)
+            if not m:
+                print("Sadly, this URL doesn't end with a numeric id")
+            else:
+                process(mastodon, m.group(1), blocked);
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Error: you must provide your account", file=sys.stderr)
+        sys.exit(1)
+    account = sys.argv[1]
+    main(account)
