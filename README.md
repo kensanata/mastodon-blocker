@@ -11,7 +11,7 @@ Here's how it works. You need Python 3 and you need the `Mastodon.py`
 library installed.
 
 ```
-pip3 install mastodon.py
+pip3 install Mastodon.py
 ```
 
 Copy the script and make it executable:
