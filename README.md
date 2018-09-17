@@ -7,6 +7,17 @@ And yes, innocent people will get caught up in this. But when you're
 being harassed by a mob, maybe that's the kind of trade-off you're
 willing to make.
 
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [Installation](#installation)
+- [Using it](#using-it)
+- [Alternatives](#alternatives)
+
+<!-- markdown-toc end -->
+
+## Installation
+
 Here's how it works. You need Python 3 and you need the `Mastodon.py`
 library installed.
 
@@ -22,6 +33,8 @@ chmod +x mastodon-blocker
 ```
 
 (Please help me improve this process?)
+
+## Using it
 
 Start the tool with your account:
 
@@ -93,3 +106,9 @@ kensanata@dice.camp is already blocked
 Keep repeating this for every toot you see.
 
 That's it! Stay safe. May you never be harassed by the mob.
+
+## Alternatives
+
+There's a web app that does a similar thing:
+
+* [https://mastodon-de-mob.codesections.com/ Mastodon De-Mob]
