@@ -7,6 +7,12 @@ And yes, innocent people will get caught up in this. But when you're
 being harassed by a mob, maybe that's the kind of trade-off you're
 willing to make.
 
+My hope is that something like this eventually makes it into all the
+Mastodon clients, and into the Mastodon web UI and the Mastodon client
+API (in order to make it easy to use). For more discussion, see issue
+[#8680](https://github.com/tootsuite/mastodon/issues/8680), "Chain
+Blocking."
+
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
@@ -111,4 +117,4 @@ That's it! Stay safe. May you never be harassed by the mob.
 
 There's a web app that does a similar thing:
 
-* [https://mastodon-de-mob.codesections.com/ Mastodon De-Mob]
+* [Mastodon De-Mob](https://mastodon-de-mob.codesections.com/)
