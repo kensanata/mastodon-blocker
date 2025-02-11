@@ -117,4 +117,4 @@ That's it! Stay safe. May you never be harassed by the mob.
 
 There's a web app that does a similar thing:
 
-* [Mastodon De-Mob](https://mastodon-de-mob.codesections.com/)
+* [Mastodon De-Mob](https://untitaker.github.io/mastodon-de-mob/)
